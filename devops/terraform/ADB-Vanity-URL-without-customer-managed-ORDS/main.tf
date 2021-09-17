@@ -1,6 +1,13 @@
 #
 # Start
 
+# Local variables
+locals {
+  frontend_port = "443"
+  backend_port = "443"
+}
+
+
 # Get ADs
 
 # <tenancy-ocid> is the compartment OCID for the root compartment.
@@ -54,8 +61,8 @@ ingress_security_rules {
       # Get protocol numbers from https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml TCP is 6
       protocol = "6"
       tcp_options { 
-          min = 443        
-          max = 443
+          min = var.frontend_port        
+          max = var.frontend_port
       }
     }     
   ingress_security_rules { 
@@ -141,7 +148,7 @@ resource "oci_load_balancer_backend_set" "vanity_backend_set_ssl" {
 
         #Optional
         interval_ms = "10000"
-        port = "443"
+        port = var.backend_port
         retries = "3"
         timeout_in_millis = "3000"
 
@@ -165,7 +172,7 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     default_backend_set_name = oci_load_balancer_backend_set.vanity_backend_set_ssl.name
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
     name = "adb_backend_Listener_ssl"
-    port = "443"
+    port = var.backend_port
     protocol = "TCP"
 
     ssl_configuration {
