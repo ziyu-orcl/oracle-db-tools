@@ -61,8 +61,8 @@ ingress_security_rules {
       # Get protocol numbers from https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml TCP is 6
       protocol = "6"
       tcp_options { 
-          min = var.frontend_port        
-          max = var.frontend_port
+          min = local.frontend_port        
+          max = local.frontend_port
       }
     }     
   ingress_security_rules { 
@@ -148,7 +148,7 @@ resource "oci_load_balancer_backend_set" "vanity_backend_set_ssl" {
 
         #Optional
         interval_ms = "10000"
-        port = var.backend_port
+        port = local.backend_port
         retries = "3"
         timeout_in_millis = "3000"
 
@@ -172,7 +172,7 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     default_backend_set_name = oci_load_balancer_backend_set.vanity_backend_set_ssl.name
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
     name = "adb_backend_Listener_ssl"
-    port = var.backend_port
+    port = local.backend_port
     protocol = "TCP"
 
     ssl_configuration {
@@ -191,6 +191,6 @@ resource "oci_load_balancer_backend" "adb_backend" {
     backendset_name = oci_load_balancer_backend_set.vanity_backend_set_ssl.name
     ip_address = data.oci_database_autonomous_database.autonomous_database.private_endpoint_ip
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
-    port = var.backend_port
+    port = local.backend_port
 
 }
