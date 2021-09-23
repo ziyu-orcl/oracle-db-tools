@@ -168,7 +168,9 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
     name = "adb_backend_Listener_ssl"
     port = "443"
-    protocol = "HTTPS"
+    # protocol is set to HTTP as HTTPS option is not available
+    # the LB will figure out the protocol should be HTTPS
+    protocol = "HTTP"
 
     #Optional
     connection_configuration {
