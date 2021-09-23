@@ -170,6 +170,11 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     port = "443"
     protocol = "HTTPS"
 
+    #Optional
+    connection_configuration {
+        #Required
+        idle_timeout_in_seconds = 900
+    }
     ssl_configuration {
 
         #Optional
