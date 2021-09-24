@@ -45,6 +45,12 @@ variable "lb_shape" {
   default = "10Mbps-Micro"
 }
 
+variable "backend_port" {
+
+    default = 443
+
+}
+
 
 # Cert Variables
 
