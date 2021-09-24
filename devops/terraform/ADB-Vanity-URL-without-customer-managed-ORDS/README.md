@@ -33,8 +33,6 @@ When the script is finished, you can associate the public IP of the load balance
 
 **lb_shape**: The shape of the load balancer to be created
 
-**backend_port**: Port used for the Load Balancer to talk to the ADB-S. Is set to 443.
-
 ### Certificate Variables
 
 **certificate_certificate_name**: A display name for the cert
