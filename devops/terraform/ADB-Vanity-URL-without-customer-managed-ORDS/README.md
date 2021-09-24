@@ -27,8 +27,6 @@ When the script is finished, you can associate the public IP of the load balance
 
 **adb_ocid**: The OCID of the existing ADB-S you want to use
 
-**backend_port**: Port used for the Load Balancer to talk to the ADB-S. Is set to 443.
-
 ### Certificate Variables
 
 **certificate_certificate_name**: A display name for the cert
