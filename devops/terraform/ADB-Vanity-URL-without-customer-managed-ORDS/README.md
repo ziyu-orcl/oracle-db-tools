@@ -9,7 +9,7 @@ It creates the following:
 - Security Lists for access over 443
 - A Load Balancer (always free 10Mbps-Micro)
 
-**The IPs for the Public Subnet assume you have a VNC with a CIDR block of 10.0.0.0/16 and 10.0.11.0/24 is unused.**
+**The IPs for the Public Subnet assume you have a VCN with a CIDR block of 10.0.0.0/16 and the 10.0.11.0/24 block is unused.**
 
 When the script is finished, you can associate the public IP of the load balancer with your domain provider.
 
@@ -26,6 +26,12 @@ When the script is finished, you can associate the public IP of the load balance
 **compartment_ocid**: The OCID of an existing compartment where you want to place these resources
 
 **adb_ocid**: The OCID of the existing ADB-S you want to use
+
+**vcn_cidr_block**: The CIDR block of the VCN
+
+**subnet_cidr_block**: The CIDR block of the public subnet to be created
+
+**lb_shape**: The shape of the load balancer to be created
 
 ### Certificate Variables
 

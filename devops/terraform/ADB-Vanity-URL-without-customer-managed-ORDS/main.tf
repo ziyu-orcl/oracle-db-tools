@@ -29,7 +29,7 @@ resource "oci_core_subnet" "vcn-public-subnet"{
   # Required
   compartment_id = var.compartment_ocid
   vcn_id = var.vcn_ocid
-  cidr_block = "10.0.11.0/24"
+  cidr_block = var.subnet_cidr_block
  
   # Optional
   #route_table_id = module.vcn.ig_route_id
@@ -81,7 +81,7 @@ ingress_security_rules {
   
   ingress_security_rules { 
       stateless = false
-      source = "10.0.0.0/16"
+      source = var.vcn_cidr_block
       source_type = "CIDR_BLOCK"
       # Get protocol numbers from https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml ICMP is 1  
       protocol = "1"
@@ -117,7 +117,7 @@ resource "oci_load_balancer_load_balancer" "vanity_load_balancer" {
 
     compartment_id = var.compartment_ocid
     display_name = "LB1"
-    shape = "10Mbps-Micro"
+    shape = var.lb_shape
     subnet_ids = [oci_core_subnet.vcn-public-subnet.id]
 
 

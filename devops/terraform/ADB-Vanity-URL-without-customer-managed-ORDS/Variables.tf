@@ -13,9 +13,6 @@ variable "tenancy_ocid" {
 
 variable "vcn_ocid" {
 # if using an existing VCN, add the OCID here:
-# Assumption is that the vcn cidr = "10.0.0.0/16"
-# If using a different CIDR, you will need to make the changes in the terraform file
-#
   default = "xxxxxx"
 
 }
@@ -28,6 +25,24 @@ variable "compartment_ocid" {
 variable "adb_ocid" {
   # OCID of your Autonomous Database you wish to use
   default = "xxxxxx"
+}
+
+variable "vcn_cidr_block" {
+  # CIDR block of the VCN
+  # If using a different CIDR, you will need to make the changes here
+  default = "10.0.0.0/16"
+}
+
+variable "subnet_cidr_block" {
+  # CIDR block of the public subnet to be created
+  # If the CIDR block is used, you will need to make the changes here
+  default = "10.0.11.0/24"
+}
+
+variable "lb_shape" {
+  # The shape of the load balancer to be created
+  # Defaults to the shape offered in the Always Free tier
+  default = "10Mbps-Micro"
 }
 
 
