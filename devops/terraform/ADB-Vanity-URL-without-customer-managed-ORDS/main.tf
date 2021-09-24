@@ -144,13 +144,15 @@ resource "oci_load_balancer_backend_set" "vanity_backend_set_ssl" {
     #Required
     health_checker {
         #Required
-        protocol = "TCP"
+        protocol = "HTTP"
 
         #Optional
         interval_ms = "10000"
         port = local.backend_port
         retries = "3"
+        return_code = "302"
         timeout_in_millis = "3000"
+        url_path = "/"
 
     }
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
@@ -173,8 +175,15 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
     name = "adb_backend_Listener_ssl"
     port = local.frontend_port
-    protocol = "TCP"
+    # protocol is set to HTTP as HTTPS option is not available
+    # the LB will figure out the protocol should be HTTPS
+    protocol = "HTTP"
 
+    #Optional
+    connection_configuration {
+        #Required
+        idle_timeout_in_seconds = 900
+    }
     ssl_configuration {
 
         #Optional
