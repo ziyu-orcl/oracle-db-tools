@@ -1,13 +1,6 @@
 #
 # Start
 
-# Local variables
-locals {
-  frontend_port = "443"
-  backend_port = "443"
-}
-
-
 # Get ADs
 
 # <tenancy-ocid> is the compartment OCID for the root compartment.
@@ -61,8 +54,8 @@ ingress_security_rules {
       # Get protocol numbers from https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml TCP is 6
       protocol = "6"
       tcp_options { 
-          min = local.frontend_port        
-          max = local.frontend_port
+          min = 443        
+          max = 443
       }
     }     
   ingress_security_rules { 
@@ -144,15 +137,13 @@ resource "oci_load_balancer_backend_set" "vanity_backend_set_ssl" {
     #Required
     health_checker {
         #Required
-        protocol = "HTTP"
+        protocol = "TCP"
 
         #Optional
         interval_ms = "10000"
-        port = local.backend_port
+        port = "443"
         retries = "3"
-        return_code = "302"
         timeout_in_millis = "3000"
-        url_path = "/"
 
     }
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
@@ -174,16 +165,9 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     default_backend_set_name = oci_load_balancer_backend_set.vanity_backend_set_ssl.name
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
     name = "adb_backend_Listener_ssl"
-    port = local.frontend_port
-    # protocol is set to HTTP as HTTPS option is not available
-    # the LB will figure out the protocol should be HTTPS
-    protocol = "HTTP"
+    port = "443"
+    protocol = "TCP"
 
-    #Optional
-    connection_configuration {
-        #Required
-        idle_timeout_in_seconds = 900
-    }
     ssl_configuration {
 
         #Optional
@@ -200,6 +184,6 @@ resource "oci_load_balancer_backend" "adb_backend" {
     backendset_name = oci_load_balancer_backend_set.vanity_backend_set_ssl.name
     ip_address = data.oci_database_autonomous_database.autonomous_database.private_endpoint_ip
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
-    port = local.backend_port
+    port = var.backend_port
 
 }
