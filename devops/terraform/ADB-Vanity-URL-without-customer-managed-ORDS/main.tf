@@ -172,7 +172,7 @@ resource "oci_load_balancer_listener" "vanity_listener_ssl" {
     default_backend_set_name = oci_load_balancer_backend_set.vanity_backend_set_ssl.name
     load_balancer_id = oci_load_balancer_load_balancer.vanity_load_balancer.id
     name = "adb_backend_Listener_ssl"
-    port = local.backend_port
+    port = local.frontend_port
     protocol = "TCP"
 
     ssl_configuration {
